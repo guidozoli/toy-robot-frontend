@@ -16,7 +16,6 @@
   height: 50px;
   background: url('../../assets/robot.png') no-repeat center/cover;
   position: absolute;
-  bottom: 0;
-  // transition-property: transform;
-  // transition-duration: 0.5s; 
+  transition-property: left, bottom;
+  transition-duration: 0.5s; 
 }
