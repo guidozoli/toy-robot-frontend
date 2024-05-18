@@ -1,3 +1,16 @@
 <div class="app">
-  <app-board></app-board>
+  <app-board [command]="command"></app-board>
+  <div class="commands">
+    <div class="instructions"></div>
+    <div class="placement-controls">
+      
+      <div class="placement-controls__inputs">
+        <input #xInput type="number" placeholder="inserici x"/>
+        <input #yInput type="number" placeholder="inserici y"/>
+      </div>
+      <div class="placement-controls__submit">
+        <button (click)="submitPlacement()">Conferma posizionamento</button>
+      </div>
+    </div>
+  </div>
 </div>

@@ -4,9 +4,11 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 export type Direction = 'up' | 'right' | 'down' | 'left';
 export type RotationDirection = 'right' | 'left';
 
-export type PlaceCommand = {
+export interface Position { x: number; y: number }
+
+export interface PlaceCommand {
   type: 'place';
-  position: { x: number; y: number };
+  position: Position;
 };
 export interface MoveCommand {
   type: 'move';
@@ -45,12 +47,17 @@ export class RobotComponent implements OnChanges {
       changes['command'].currentValue &&
       !changes['command'].firstChange
     ) {
+      console.log('command', this.command)
       switch (this.command?.type) {
+        case 'place':
+          this.handlePlaceCommand(this.command.position);
+          break
         case 'rotate':
-          this.handleRotateCommand(this.command);
+          this.handleRotateCommand(this.command.direction);
           break;
         case 'move':
-          this.handleMoveCommand(this.command);
+          this.handleMoveCommand();
+
       }
     }
   }
@@ -62,13 +69,19 @@ export class RobotComponent implements OnChanges {
     };
   }
 
-  private handleRotateCommand(command: RotateCommand) {
-    this.direction = this.calculateNewDirection(command.direction);
+  handlePlaceCommand(position: Position) {
+    // TODO: transoform position in posizion relative to board size
+    this.position = {
+      x: position.x * 100,
+      y: position.y * 100
+    }
   }
 
-  private handleMoveCommand(command: MoveCommand) {
-    let x = this.position.x;
-    let y = this.position.y;
+  private handleRotateCommand(direction: RotationDirection) {
+    this.updateDirection(direction);
+  }
+
+  private handleMoveCommand() {
     this.updatePosition();
   }
 
@@ -121,12 +134,14 @@ export class RobotComponent implements OnChanges {
     }
   }
 
-  private calculateNewDirection(rotateTo: RotationDirection): Direction {
+  private updateDirection(rotateTo: RotationDirection) {
     switch (rotateTo) {
       case 'right':
-        return this.rotateRight();
+        this.direction = this.rotateRight();
+        break
       case 'left':
-        return this.rotateLeft();
+        this.direction = this.rotateLeft();
+        break;
     }
   }
 }

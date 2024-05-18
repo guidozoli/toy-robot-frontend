@@ -3,11 +3,27 @@
   background-color: grey;
   width: 100%;
   height: 100vh;
-  padding: 100px 10px;
+  padding: 50px 10px;
 }
 
-.buttons {
-  margin-top: 50px;
+.commands {
+  margin-top: 30px;
   display: flex;
   gap: 20px;
+
+  .instructions {
+    
+  }
+  
+  .placement-controls {
+    &__inputs {
+      input {
+        
+      }
+    }
+
+    &__submit {
+      width: 100%;
+    }
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, Input } from '@angular/core';
 import { Command, RobotComponent } from '../robot/robot.component';
 
 @Component({
@@ -9,9 +9,8 @@ import { Command, RobotComponent } from '../robot/robot.component';
   styleUrl: './board.component.scss',
 })
 export class BoardComponent {
-  command?: Command;
+  @Input() command?: Command;
   @HostListener('window:keyup', ['$event']) handleKeyUp(event: KeyboardEvent) {
-    console.log('keyup', event);
     switch (event.key) {
       case 'ArrowLeft':
         this.command = { type: 'rotate', direction: 'left' };
