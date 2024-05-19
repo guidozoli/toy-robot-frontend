@@ -1,6 +1,9 @@
 import {
+  AfterViewChecked,
+  AfterViewInit,
   Component,
   ElementRef,
+  HostListener,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -21,11 +24,29 @@ import { Subscription } from 'rxjs';
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit, OnDestroy {
-  title = 'toy-robot-frontend';
-
   @ViewChild('xInput') xInputEl?: ElementRef<HTMLInputElement>;
   @ViewChild('yInput') yInputEl?: ElementRef<HTMLInputElement>;
-  @ViewChild('faceSelect') faceSelectEl?: ElementRef<HTMLSelectElement>;
+  @ViewChild('directionSelect')
+  directionSelectEl?: ElementRef<HTMLSelectElement>;
+  @HostListener('window:keyup', ['$event']) handleKeyUp(event: KeyboardEvent) {
+    switch (event.key) {
+      case 'ArrowLeft':
+        this.command = { type: 'rotate', direction: 'LEFT' };
+        break;
+      case 'ArrowRight':
+        this.command = { type: 'rotate', direction: 'RIGHT' };
+        break;
+      case 'm':
+      case 'M':
+        this.command = { type: 'move' };
+        break;
+      case 'r':
+      case 'R':
+        this.command = { type: 'report' };
+        break;
+    }
+  }
+
   command?: Command;
 
   modalData?: ModalData;
@@ -59,11 +80,11 @@ export class AppComponent implements OnInit, OnDestroy {
   submitPlacement() {
     const x = this.xInputEl?.nativeElement.value;
     const y = this.yInputEl?.nativeElement.value;
-    const face = this.faceSelectEl?.nativeElement.value;
+    const face = this.directionSelectEl?.nativeElement.value;
     if (x != null && x != '' && y != null && y != '' && face) {
       this.command = {
         type: 'place',
-        position: { x: Number(x), y: Number(y), face: face as Direction },
+        placement: { x: Number(x), y: Number(y), direction: face as Direction },
       };
     }
   }

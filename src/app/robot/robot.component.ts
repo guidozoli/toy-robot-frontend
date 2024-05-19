@@ -1,6 +1,7 @@
 import { NgClass, NgIf, NgStyle } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ModalService } from '../shared/modal/modal.service';
+import { MAX_STEPS_NUMBER } from '../shared/modal/constants';
 
 export type Direction = 'NORTH' | 'EAST' | 'SOUTH' | 'WEST';
 export type RotationDirection = 'RIGHT' | 'LEFT';
@@ -8,12 +9,12 @@ export type RotationDirection = 'RIGHT' | 'LEFT';
 export interface Placement {
   x: number;
   y: number;
-  face: Direction
+  direction: Direction;
 }
 
 export interface PlaceCommand {
   type: 'place';
-  position: Placement;
+  placement: Placement;
 }
 export interface MoveCommand {
   type: 'move';
@@ -33,9 +34,6 @@ export type Command =
   | PlaceCommand
   | ReportCommand;
 
-const maxX = 5;
-const maxY = 5;
-
 @Component({
   selector: 'app-robot',
   standalone: true,
@@ -46,8 +44,7 @@ const maxY = 5;
 export class RobotComponent implements OnChanges {
   @Input() command?: Command;
   @Input() unitSize!: number;
-  position?: { x: number; y: number };
-
+  coordinates?: { x: number; y: number };
   public direction?: Direction;
 
   applicationStarted = false;
@@ -63,20 +60,20 @@ export class RobotComponent implements OnChanges {
       console.log('command', this.command);
       switch (this.command?.type) {
         case 'place':
-          this.handlePlaceCommand(this.command.position);
+          this.handlePlaceCommand(this.command.placement);
           break;
         case 'rotate':
-          if(this.applicationStarted) {
+          if (this.applicationStarted) {
             this.handleRotateCommand(this.command.direction);
           }
           break;
         case 'move':
-          if(this.applicationStarted) {
+          if (this.applicationStarted) {
             this.handleMoveCommand();
           }
           break;
         case 'report':
-          if(this.applicationStarted) {
+          if (this.applicationStarted) {
             this.handleReportCommand();
           }
           break;
@@ -84,29 +81,30 @@ export class RobotComponent implements OnChanges {
     }
   }
 
-  getRobotPosition() {
-    if(!this.position || !this.unitSize) {
-      return
+  getRobotStyleObj() {
+    if (!this.coordinates || !this.unitSize) {
+      return;
     }
     return {
-      left: `${this.position.x}px`,
-      bottom: `${this.position.y}px`,
-      width: `${Math.floor(this.unitSize)}px`,
-      height: `${Math.floor(this.unitSize)}px`
+      left: `${this.coordinates.x * this.unitSize}px`,
+      bottom: `${this.coordinates.y * this.unitSize}px`,
+      width: `${this.unitSize}px`,
+      height: `${this.unitSize}px`,
     };
   }
 
   handlePlaceCommand(placement: Placement) {
-    const x = placement.x * this.unitSize
-    const y = placement.y * this.unitSize
-    if(!this.applicationStarted && (!this.canUpdateX(x) || !this.canUpdateY(y))) {
-      return
+    if (
+      !this.isNewCoordinateInRange(placement.x) ||
+      !this.isNewCoordinateInRange(placement.y)
+    ) {
+      return;
     }
-    this.position = {
-      x: this.canUpdateX(x) ? x: this.position!.x,
-      y: this.canUpdateY(y) ? y: this.position!.y,
+    this.coordinates = {
+      x: placement.x,
+      y: placement.y,
     };
-    this.direction = placement.face
+    this.direction = placement.direction;
     this.applicationStarted = true;
   }
 
@@ -115,53 +113,48 @@ export class RobotComponent implements OnChanges {
   }
 
   private handleMoveCommand() {
-    this.updatePosition();
+    this.makeStep();
   }
 
   private handleReportCommand() {
-    if(!this.position) {
-      return
-    }
-    console.log(this.position);
-    this.modalService.showModal(
-      `x: ${this.position.x}; y: ${this.position.y}; face: ${this.direction}`,
-      'Placement'
-    )
-  }
-
-  private updatePosition() {
-    if(!this.position) {
+    if (!this.coordinates) {
       return;
     }
-    let x = this.position.x;
-    let y = this.position.y;
+    this.modalService.showModal(
+      `x: ${this.coordinates.x}; y: ${this.coordinates.y}; direction: ${this.direction}`,
+      'Placement'
+    );
+  }
+
+  private makeStep() {
+    if (!this.coordinates) {
+      return;
+    }
+    let x = this.coordinates.x;
+    let y = this.coordinates.y;
     switch (this.direction) {
       case 'WEST':
-        x = x - this.unitSize;
+        x = x - 1;
         break;
       case 'EAST':
-        x = x + this.unitSize;
+        x = x + 1;
         break;
       case 'SOUTH':
-        y = y - this.unitSize;
+        y = y - 1;
         break;
       case 'NORTH':
-        y = y + this.unitSize;
+        y = y + 1;
         break;
     }
 
-    this.position = {
-      x: this.canUpdateX(x) ? x: this.position.x,
-      y: this.canUpdateY(y) ? y: this.position.y
+    this.coordinates = {
+      x: this.isNewCoordinateInRange(x) ? x : this.coordinates.x,
+      y: this.isNewCoordinateInRange(y) ? y : this.coordinates.y,
     };
   }
 
-  private canUpdateX(xToCheck: number): boolean {
-    return xToCheck >= 0 && xToCheck <= this.unitSize * (maxX - 1) 
-  }
-
-  private canUpdateY(yToCheck: number): boolean {
-    return yToCheck >= 0 && yToCheck <= this.unitSize * (maxY - 1) 
+  private isNewCoordinateInRange(newCoordinate: number): boolean {
+    return newCoordinate >= 0 && newCoordinate < MAX_STEPS_NUMBER;
   }
 
   private rotateLeft(): Direction {
