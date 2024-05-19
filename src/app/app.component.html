@@ -7,6 +7,13 @@
       <div class="placement-controls__inputs">
         <input #xInput type="number" placeholder="inserici x"/>
         <input #yInput type="number" placeholder="inserici y"/>
+        <select #faceSelect name="face">
+          <option value="">--Please choose an option--</option>
+          <option value="NORTH">NORTH</option>
+          <option value="SOUTH">SOUTH</option>
+          <option value="WEST">WEST</option>
+          <option value="EAST">EAST</option>
+        </select>
       </div>
       <div class="placement-controls__submit">
         <button (click)="submitPlacement()">Conferma posizionamento</button>

@@ -1,9 +1,10 @@
 <div
+  *ngIf="applicationStarted"
   class="robot"
   [ngClass]="{
-    'direction--right': direction === 'right',
-    'direction--up': direction === 'up',
-    'direction--left': direction === 'left',
+    'direction--right': direction === 'EAST',
+    'direction--up': direction === 'NORTH',
+    'direction--left': direction === 'WEST',
   }"
   [ngStyle]="getRobotPosition()"
 ></div>
