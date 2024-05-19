@@ -3,22 +3,22 @@
   <div class="commands">
     <div class="instructions"></div>
     <div class="placement-controls">
-      
       <div class="placement-controls__inputs">
-        <input #xInput type="number" placeholder="inserici x"/>
-        <input #yInput type="number" placeholder="inserici y"/>
-        <select #directionSelect name="face">
-          <option value="">--Please choose an option--</option>
-          <option value="NORTH">NORTH</option>
-          <option value="SOUTH">SOUTH</option>
-          <option value="WEST">WEST</option>
-          <option value="EAST">EAST</option>
-        </select>
+        <app-input-number [placeholder]="'insert x'" (valueChanged)="handleValueChange('x', $event)"></app-input-number>
+        <app-input-number [placeholder]="'insert y'" (valueChanged)="handleValueChange('y', $event)"></app-input-number>
+        <app-select [options]="directionOptions" (valueChanged)="handleValueChange('direction', $event)"></app-select>
       </div>
       <div class="placement-controls__submit">
-        <button (click)="submitPlacement()">Conferma posizionamento</button>
+        <app-button
+          [text]="'Confirm placement'"
+          (buttonClicked)="submitPlacement()"
+          ></app-button
+        >
       </div>
     </div>
   </div>
 </div>
-<app-modal *ngIf="modalVisible" [modalData]="modalData"></app-modal>
+<app-info-modal
+  *ngIf="infoModalVisible"
+  [modalData]="infoModalData"
+></app-info-modal>

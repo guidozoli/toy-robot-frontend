@@ -11,21 +11,32 @@ import {
 import { RouterOutlet } from '@angular/router';
 import { BoardComponent } from './board/board.component';
 import { Command, Direction } from './robot/robot.component';
-import { ModalData, ModalService } from './shared/modal/modal.service';
-import { ModalComponent } from './shared/modal/modal.component';
+import { InfoModalData, ModalService } from './shared/modal/modal.service';
+import { InfoModalComponent } from './shared/modal/modal.component';
 import { NgIf } from '@angular/common';
 import { Subscription } from 'rxjs';
+import { ButtonComponent } from './shared/button/button.component';
+import { InputNumberComponent } from './shared/input-number/input-number.component';
+import { Option, SelectComponent } from './shared/select/select.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, BoardComponent, ModalComponent, NgIf],
+  imports: [
+    RouterOutlet,
+    BoardComponent,
+    InfoModalComponent,
+    NgIf,
+    ButtonComponent,
+    InputNumberComponent,
+    SelectComponent
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit, OnDestroy {
-  @ViewChild('xInput') xInputEl?: ElementRef<HTMLInputElement>;
-  @ViewChild('yInput') yInputEl?: ElementRef<HTMLInputElement>;
+
+
   @ViewChild('directionSelect')
   directionSelectEl?: ElementRef<HTMLSelectElement>;
   @HostListener('window:keyup', ['$event']) handleKeyUp(event: KeyboardEvent) {
@@ -49,28 +60,54 @@ export class AppComponent implements OnInit, OnDestroy {
 
   command?: Command;
 
-  modalData?: ModalData;
-  modalVisible = false;
+  infoModalData?: InfoModalData;
+  infoModalVisible = false;
+
+  directionOptions: Option[] = [
+    {value: '', label: '--select a direction--'},
+    {value: 'NORTH', label: 'NORTH'},
+    {value: 'SOUTH', label: 'SOUTH'},
+    {value: 'WEST', label: 'WEST'},
+    {value: 'EAST', label: 'EAST'}
+  ]
 
   private modalSubscription?: Subscription;
+
+  private xVal?: number;
+  private yVal?: number;
+  private directionVal?: Direction;
 
   constructor(private modalService: ModalService) {}
 
   ngOnInit(): void {
     this.modalSubscription = this.modalService.modalVisible.subscribe(
-      (res: ModalData | null) => {
+      (res: InfoModalData | null) => {
         if (!res) {
           setTimeout(() => {
-            this.modalVisible = false;
+            this.infoModalVisible = false;
           }, 0);
         } else {
           setTimeout(() => {
-            this.modalData = res;
-            this.modalVisible = true;
+            this.infoModalData = res;
+            this.infoModalVisible = true;
           }, 0);
         }
       }
     );
+  }
+
+  handleValueChange(field: 'x' | 'y' | 'direction', value: number | string) {
+    switch(field) {
+      case 'x':
+        this.xVal = value as number
+        break;
+      case 'y':
+        this.yVal = value as number
+        break;
+      case 'direction':
+        this.directionVal = value as Direction
+        break;
+    }
   }
 
   ngOnDestroy(): void {
@@ -78,13 +115,14 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   submitPlacement() {
-    const x = this.xInputEl?.nativeElement.value;
-    const y = this.yInputEl?.nativeElement.value;
-    const face = this.directionSelectEl?.nativeElement.value;
-    if (x != null && x != '' && y != null && y != '' && face) {
+    if (this.xVal != null && this.yVal != null && this.directionVal) {
       this.command = {
         type: 'place',
-        placement: { x: Number(x), y: Number(y), direction: face as Direction },
+        placement: {
+          x: this.xVal,
+          y: this.yVal,
+          direction: this.directionVal,
+        },
       };
     }
   }

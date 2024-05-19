@@ -1,14 +1,14 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 
-export interface ModalData {
+export interface InfoModalData {
   title?: string, 
   message: string
 }
 
 @Injectable({providedIn: 'root'})
 export class ModalService {
-  modalVisible = new BehaviorSubject<ModalData | null>(null)
+  modalVisible = new BehaviorSubject<InfoModalData | null>(null)
 
   showModal( message: string, title?: string) {
     this.modalVisible.next({title, message})

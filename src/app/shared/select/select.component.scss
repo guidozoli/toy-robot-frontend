@@ -1,0 +1,11 @@
+
+.select {
+  padding: 10px;
+  width: 100%;
+  border: 1px solid darkgrey;
+  border-radius: 5px;
+
+  &:hover {
+    border-color: darkblue;
+  }
+}

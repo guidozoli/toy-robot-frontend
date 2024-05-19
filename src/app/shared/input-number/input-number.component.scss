@@ -1,0 +1,10 @@
+.input {
+  padding: 10px;
+  border: 1px solid darkgray;
+  border-radius: 5px;
+  width: 100%;
+  
+  &:hover {
+    border-color: darkblue
+  }
+}

@@ -1,16 +1,17 @@
 import { Component, Input } from '@angular/core';
-import { ModalData, ModalService } from './modal.service';
+import { InfoModalData, ModalService } from './modal.service';
 import { NgIf } from '@angular/common';
+import { ButtonComponent } from '../button/button.component';
 
 @Component({
-  selector: 'app-modal',
+  selector: 'app-info-modal',
   standalone: true,
-  imports: [NgIf],
+  imports: [NgIf, ButtonComponent],
   templateUrl: './modal.component.html',
   styleUrl: './modal.component.scss'
 })
-export class ModalComponent {
-  @Input() modalData?: ModalData; 
+export class InfoModalComponent {
+  @Input() modalData?: InfoModalData; 
 
   constructor(private modalService: ModalService) {}
 
