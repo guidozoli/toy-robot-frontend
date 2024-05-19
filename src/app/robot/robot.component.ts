@@ -85,12 +85,14 @@ export class RobotComponent implements OnChanges {
   }
 
   getRobotPosition() {
-    if(!this.position) {
+    if(!this.position || !this.unitSize) {
       return
     }
     return {
       left: `${this.position.x}px`,
       bottom: `${this.position.y}px`,
+      width: `${Math.floor(this.unitSize)}px`,
+      height: `${Math.floor(this.unitSize)}px`
     };
   }
 
