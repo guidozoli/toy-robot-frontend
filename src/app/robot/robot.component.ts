@@ -1,5 +1,6 @@
 import { NgClass, NgIf, NgStyle } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { ModalService } from '../shared/modal/modal.service';
 
 export type Direction = 'NORTH' | 'EAST' | 'SOUTH' | 'WEST';
 export type RotationDirection = 'RIGHT' | 'LEFT';
@@ -32,7 +33,6 @@ export type Command =
   | PlaceCommand
   | ReportCommand;
 
-const unitSize = 100;
 const maxX = 5;
 const maxY = 5;
 
@@ -45,11 +45,14 @@ const maxY = 5;
 })
 export class RobotComponent implements OnChanges {
   @Input() command?: Command;
+  @Input() unitSize!: number;
   position?: { x: number; y: number };
 
   public direction?: Direction;
 
   applicationStarted = false;
+
+  constructor(private modalService: ModalService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (
@@ -92,8 +95,8 @@ export class RobotComponent implements OnChanges {
   }
 
   handlePlaceCommand(placement: Placement) {
-    const x = placement.x * unitSize
-    const y = placement.y * unitSize
+    const x = placement.x * this.unitSize
+    const y = placement.y * this.unitSize
     if(!this.applicationStarted && (!this.canUpdateX(x) || !this.canUpdateY(y))) {
       return
     }
@@ -114,7 +117,14 @@ export class RobotComponent implements OnChanges {
   }
 
   private handleReportCommand() {
+    if(!this.position) {
+      return
+    }
     console.log(this.position);
+    this.modalService.showModal(
+      `x: ${this.position.x}; y: ${this.position.y}; face: ${this.direction}`,
+      'Placement'
+    )
   }
 
   private updatePosition() {
@@ -125,16 +135,16 @@ export class RobotComponent implements OnChanges {
     let y = this.position.y;
     switch (this.direction) {
       case 'WEST':
-        x = x - unitSize;
+        x = x - this.unitSize;
         break;
       case 'EAST':
-        x = x + unitSize;
+        x = x + this.unitSize;
         break;
       case 'SOUTH':
-        y = y - unitSize;
+        y = y - this.unitSize;
         break;
       case 'NORTH':
-        y = y + unitSize;
+        y = y + this.unitSize;
         break;
     }
 
@@ -145,11 +155,11 @@ export class RobotComponent implements OnChanges {
   }
 
   private canUpdateX(xToCheck: number): boolean {
-    return xToCheck >= 0 && xToCheck <= unitSize * (maxX - 1) 
+    return xToCheck >= 0 && xToCheck <= this.unitSize * (maxX - 1) 
   }
 
   private canUpdateY(yToCheck: number): boolean {
-    return yToCheck >= 0 && yToCheck <= unitSize * (maxY - 1) 
+    return yToCheck >= 0 && yToCheck <= this.unitSize * (maxY - 1) 
   }
 
   private rotateLeft(): Direction {

@@ -1,5 +1,7 @@
-<div class="board">
+<div #board class="board">
   <app-robot
+    *ngIf="unitSize"
+    [unitSize]="unitSize"
     [command]="command"
   ></app-robot>
 </div>

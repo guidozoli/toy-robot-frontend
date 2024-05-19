@@ -1,8 +1,10 @@
 
 .board {
   background-color: white;
-  width: 500px;
-  height: 500px;
+  width: 90vw;
+  height: 90vw;
+  max-width: 500px;
+  max-height: 500px;
   margin: auto;
   position: relative;
 }

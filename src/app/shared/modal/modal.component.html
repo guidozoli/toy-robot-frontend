@@ -1,0 +1,14 @@
+
+<div class="modal-backdrop" (click)="close()"></div>
+<div class="modal">
+  <div class="modal-eader">
+    <h2 *ngIf="modalData && modalData.title">{{modalData!.title}}</h2>
+  </div>
+  
+  <div class="modal-body">
+    <p *ngIf="modalData && modalData.message">{{modalData!.message}}</p>
+  </div>
+  <div class="modal-footer">
+    <button (click)="close()">Close</button>
+  </div>
+</div>
