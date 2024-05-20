@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { InfoModalData, ModalService } from '../../services/modal.service';
 import { KeyValuePipe, NgFor, NgIf } from '@angular/common';
+
+import { InfoModalData, ModalService } from '../../services/modal.service';
 import { ButtonComponent } from '../button/button.component';
 
 @Component({

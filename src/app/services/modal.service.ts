@@ -13,6 +13,7 @@ export class ModalService {
   showInfoModal( message: string | Record<string, string>, title?: string) {
     this.infoModalVisible.next({title, message})
   }
+  
   hideInfoModal() {
     this.infoModalVisible.next(false)
   }

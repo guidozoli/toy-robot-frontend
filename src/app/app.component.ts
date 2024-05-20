@@ -1,11 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { NgIf } from '@angular/common';
+import { Subscription } from 'rxjs';
+
 import { BoardComponent } from './board/board.component';
 import { Command } from './robot/robot.component';
 import { InfoModalData, ModalService } from './services/modal.service';
 import { InfoModalComponent } from './shared/info-modal/info-modal.component';
-import { NgIf } from '@angular/common';
-import { Subscription } from 'rxjs';
 import { ControlsComponent } from './controls/controls.component';
 
 @Component({

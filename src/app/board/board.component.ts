@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { Command, RobotComponent } from '../robot/robot.component';
 import { NgIf } from '@angular/common';
+
 import { MAX_STEPS_NUMBER } from '../constants';
 
 @Component({

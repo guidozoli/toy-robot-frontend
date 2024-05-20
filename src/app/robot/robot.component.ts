@@ -1,5 +1,6 @@
 import { NgClass, NgIf, NgStyle } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+
 import { ModalService } from '../services/modal.service';
 import { MAX_STEPS_NUMBER } from '../constants';
 
