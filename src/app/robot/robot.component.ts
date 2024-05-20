@@ -117,11 +117,11 @@ export class RobotComponent implements OnChanges {
   }
 
   private handleReportCommand() {
-    if (!this.coordinates) {
+    if (!this.coordinates || !this.direction) {
       return;
     }
     this.modalService.showInfoModal(
-      `x: ${this.coordinates.x}; y: ${this.coordinates.y}; direction: ${this.direction}`,
+      {'X': this.coordinates.x.toString(), 'Y': this.coordinates.y.toString(),  'Direction': this.direction},
       'Placement'
     );
   }

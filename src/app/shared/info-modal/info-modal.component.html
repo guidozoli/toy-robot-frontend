@@ -6,7 +6,13 @@
   </div>
   
   <div class="modal-body">
-    <p *ngIf="modalData && modalData.message">{{modalData!.message}}</p>
+    <!-- <p *ngIf="modalData && modalData.message && modalData.message instanceof string">{{modalData!.message}}</p> -->
+    <p *ngIf="modalData && modalData.message && isMessageString()">{{modalData!.message}}</p>
+    <ul *ngIf="modalData && modalData.message && !isMessageString()">
+      <li *ngFor="let item of modalData.message | keyvalue">
+        <b>{{item.key}}</b>: {{item.value}}
+      </li>
+    </ul>
   </div>
   <div class="modal-footer">
     <app-button (buttonClicked)="close()" [text]="'close'"></app-button>
