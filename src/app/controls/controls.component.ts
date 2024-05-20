@@ -1,5 +1,10 @@
 import { Component, EventEmitter, HostListener, Output } from '@angular/core';
-import { Command, Direction, PlaceCommand } from '../robot/robot.component';
+import {
+  Command,
+  Direction,
+  PlaceCommand,
+  RotationDirection,
+} from '../robot/robot.component';
 import { Option, SelectComponent } from '../shared/select/select.component';
 import { ButtonComponent } from '../shared/button/button.component';
 import { InputNumberComponent } from '../shared/input-number/input-number.component';
@@ -9,30 +14,29 @@ import { InputNumberComponent } from '../shared/input-number/input-number.compon
   standalone: true,
   imports: [ButtonComponent, InputNumberComponent, SelectComponent],
   templateUrl: './controls.component.html',
-  styleUrl: './controls.component.scss'
+  styleUrl: './controls.component.scss',
 })
 export class ControlsComponent {
   @HostListener('window:keyup', ['$event']) handleKeyUp(event: KeyboardEvent) {
     switch (event.key) {
       case 'ArrowLeft':
-        this.sendCommand({ type: 'rotate', direction: 'LEFT' });
+        this.rotate('LEFT');
         break;
       case 'ArrowRight':
-        this.sendCommand({ type: 'rotate', direction: 'RIGHT' });
+        this.rotate('LEFT');
         break;
       case 'm':
       case 'M':
-        this.sendCommand({ type: 'move' });
+        this.move();
         break;
       case 'r':
       case 'R':
-        this.sendCommand({ type: 'report' });
+        this.report()
         break;
     }
   }
 
-  @Output() commandSent = new EventEmitter<Command>()
-  
+  @Output() commandSent = new EventEmitter<Command>();
 
   directionOptions: Option[] = [
     { value: '', label: '-- Select a direction --' },
@@ -60,7 +64,17 @@ export class ControlsComponent {
     }
   }
 
-  submitPlacement() {
+  rotate(direction: RotationDirection) {
+    this.sendCommand({ type: 'rotate', direction });
+  }
+  move() {
+    this.sendCommand({ type: 'move' });
+  }
+  report() {
+    this.sendCommand({ type: 'report' });
+  }
+
+  submitPlace() {
     if (this.xVal != null && this.yVal != null && this.directionVal) {
       const command: PlaceCommand = {
         type: 'place',
@@ -75,6 +89,6 @@ export class ControlsComponent {
   }
 
   private sendCommand(command: Command) {
-    this.commandSent.emit(command)
+    this.commandSent.emit(command);
   }
 }

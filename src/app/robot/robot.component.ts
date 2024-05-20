@@ -57,7 +57,6 @@ export class RobotComponent implements OnChanges {
       changes['command'].currentValue &&
       !changes['command'].firstChange
     ) {
-      console.log('command', this.command);
       switch (this.command?.type) {
         case 'place':
           this.handlePlaceCommand(this.command.placement);

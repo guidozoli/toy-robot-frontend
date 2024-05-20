@@ -1,19 +1,33 @@
-.commands {
-  margin-top: 30px;
+@import '../../styles/variables.scss';
+@import '../../styles/variables.scss';
+
+.controls {
   display: flex;
-  gap: 20px;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;  
+}
 
+.other-commands {
+  display: flex;
+  flex-direction: column;
+  gap: 25px; 
+}
 
-  
-  .placement-controls {
-    &__inputs {
-      input {
-        
-      }
-    }
+.place, .rotate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px
+}
 
-    &__submit {
-      width: 100%;
-    }
+@media screen and (max-width: $portrait-width) {
+  .controls {
+    flex-direction: row;
+  }
+}
+@media screen and (max-width: $mobile-width) {
+  .controls {
+    flex-direction: column;
   }
 }

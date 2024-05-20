@@ -34,7 +34,6 @@ export class BoardComponent implements AfterViewInit {
 
   setUnitSize() {
     const boardWidth = this.boardEl?.nativeElement.offsetWidth;
-    console.log(boardWidth);
     if (boardWidth) {
       setTimeout(() => {
         this.unitSize = Math.floor(boardWidth / MAX_STEPS_NUMBER);

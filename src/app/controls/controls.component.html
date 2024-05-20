@@ -1,16 +1,38 @@
-<div class="commands">
-  <div class="placement-controls">
-    <div class="placement-controls__inputs">
-      <app-input-number [placeholder]="'insert X'" (valueChanged)="handleValueChange('x', $event)"></app-input-number>
-      <app-input-number [placeholder]="'insert Y'" (valueChanged)="handleValueChange('y', $event)"></app-input-number>
-      <app-select [options]="directionOptions" (valueChanged)="handleValueChange('direction', $event)"></app-select>
-    </div>
-    <div class="placement-controls__submit">
+<div class="controls">
+  <div class="place">
+    <app-input-number
+      [placeholder]="'insert X'"
+      (valueChanged)="handleValueChange('x', $event)"
+    ></app-input-number>
+    <app-input-number
+      [placeholder]="'insert Y'"
+      (valueChanged)="handleValueChange('y', $event)"
+    ></app-input-number>
+    <app-select
+      [options]="directionOptions"
+      (valueChanged)="handleValueChange('direction', $event)"
+    ></app-select>
+    <app-button
+      [text]="'Place robot'"
+      (buttonClicked)="submitPlace()"
+    ></app-button>
+  </div>
+  <div class="other-commands">
+    <div class="rotate">
       <app-button
-        [text]="'Confirm placement'"
-        (buttonClicked)="submitPlacement()"
-        ></app-button
-      >
+        [text]="'Rotate left (←)'"
+        (buttonClicked)="rotate('LEFT')"
+      ></app-button>
+      <app-button
+        [text]="'Rotate right (→)'"
+        (buttonClicked)="rotate('RIGHT')"
+      ></app-button>
+    </div>
+    <div class="move">
+      <app-button [text]="'Move (M)'" (buttonClicked)="move()"></app-button>
+    </div>
+    <div class="report">
+      <app-button [text]="'Report (R)'" (buttonClicked)="report()"></app-button>
     </div>
   </div>
 </div>
