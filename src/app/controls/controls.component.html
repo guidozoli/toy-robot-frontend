@@ -1,11 +1,11 @@
 <div class="controls">
   <div class="place">
     <app-input-number
-      [placeholder]="'insert X'"
+      [placeholder]="'insert X (0-4)'"
       (valueChanged)="handleValueChange('x', $event)"
     ></app-input-number>
     <app-input-number
-      [placeholder]="'insert Y'"
+      [placeholder]="'insert Y (0-4)'"
       (valueChanged)="handleValueChange('y', $event)"
     ></app-input-number>
     <app-select
