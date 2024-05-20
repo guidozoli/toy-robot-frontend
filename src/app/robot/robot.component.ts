@@ -121,7 +121,7 @@ export class RobotComponent implements OnChanges {
     }
     this.modalService.showInfoModal(
       {'X': this.coordinates.x.toString(), 'Y': this.coordinates.y.toString(),  'Direction': this.direction},
-      'Placement'
+      'Robot placement'
     );
   }
 
