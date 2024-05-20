@@ -1,3 +1,5 @@
+@import '../../../styles/colors.scss';
+@import '../../../styles/variables.scss';
 
 .modal-backdrop {
   position: fixed;
@@ -25,7 +27,7 @@
 }
 
 .modal-header {
-  background-color: darkblue;
+  background-color: $blue-1;
   border-top-left-radius: inherit;
   border-top-right-radius: inherit;
   padding: 10px 20px;
@@ -53,6 +55,14 @@
   border-bottom-right-radius: inherit;
 }
 
-
+@media screen and (max-width: $mobile-width)  {
+  .modal {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    transform: none;
+  }
+}
 
 

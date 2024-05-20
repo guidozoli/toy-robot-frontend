@@ -1,7 +1,7 @@
 import { NgClass, NgIf, NgStyle } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { ModalService } from '../shared/modal/modal.service';
-import { MAX_STEPS_NUMBER } from '../shared/modal/constants';
+import { ModalService } from '../services/modal.service';
+import { MAX_STEPS_NUMBER } from '../constants';
 
 export type Direction = 'NORTH' | 'EAST' | 'SOUTH' | 'WEST';
 export type RotationDirection = 'RIGHT' | 'LEFT';
@@ -120,7 +120,7 @@ export class RobotComponent implements OnChanges {
     if (!this.coordinates) {
       return;
     }
-    this.modalService.showModal(
+    this.modalService.showInfoModal(
       `x: ${this.coordinates.x}; y: ${this.coordinates.y}; direction: ${this.direction}`,
       'Placement'
     );

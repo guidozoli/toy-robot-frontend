@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { Command, RobotComponent } from '../robot/robot.component';
 import { NgIf } from '@angular/common';
-import { MAX_STEPS_NUMBER } from '../shared/modal/constants';
+import { MAX_STEPS_NUMBER } from '../constants';
 
 @Component({
   selector: 'app-board',
@@ -36,7 +36,9 @@ export class BoardComponent implements AfterViewInit {
     const boardWidth = this.boardEl?.nativeElement.offsetWidth;
     console.log(boardWidth);
     if (boardWidth) {
-      this.unitSize = Math.floor(boardWidth / MAX_STEPS_NUMBER);
+      setTimeout(() => {
+        this.unitSize = Math.floor(boardWidth / MAX_STEPS_NUMBER);
+      }, 0);
     }
   }
 }

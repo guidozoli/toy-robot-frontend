@@ -1,6 +1,4 @@
 import {
-  AfterViewChecked,
-  AfterViewInit,
   Component,
   ElementRef,
   HostListener,
@@ -11,8 +9,8 @@ import {
 import { RouterOutlet } from '@angular/router';
 import { BoardComponent } from './board/board.component';
 import { Command, Direction } from './robot/robot.component';
-import { InfoModalData, ModalService } from './shared/modal/modal.service';
-import { InfoModalComponent } from './shared/modal/modal.component';
+import { InfoModalData, ModalService } from './services/modal.service';
+import { InfoModalComponent } from './shared/info-modal/info-modal.component';
 import { NgIf } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { ButtonComponent } from './shared/button/button.component';
@@ -29,14 +27,12 @@ import { Option, SelectComponent } from './shared/select/select.component';
     NgIf,
     ButtonComponent,
     InputNumberComponent,
-    SelectComponent
+    SelectComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit, OnDestroy {
-
-
   @ViewChild('directionSelect')
   directionSelectEl?: ElementRef<HTMLSelectElement>;
   @HostListener('window:keyup', ['$event']) handleKeyUp(event: KeyboardEvent) {
@@ -64,12 +60,12 @@ export class AppComponent implements OnInit, OnDestroy {
   infoModalVisible = false;
 
   directionOptions: Option[] = [
-    {value: '', label: '--select a direction--'},
-    {value: 'NORTH', label: 'NORTH'},
-    {value: 'SOUTH', label: 'SOUTH'},
-    {value: 'WEST', label: 'WEST'},
-    {value: 'EAST', label: 'EAST'}
-  ]
+    { value: '', label: '--select a direction--' },
+    { value: 'NORTH', label: 'NORTH' },
+    { value: 'SOUTH', label: 'SOUTH' },
+    { value: 'WEST', label: 'WEST' },
+    { value: 'EAST', label: 'EAST' },
+  ];
 
   private modalSubscription?: Subscription;
 
@@ -80,14 +76,12 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(private modalService: ModalService) {}
 
   ngOnInit(): void {
-    this.modalSubscription = this.modalService.modalVisible.subscribe(
-      (res: InfoModalData | null) => {
+    this.modalSubscription = this.modalService.infoModalVisible.subscribe(
+      (res: InfoModalData | false) => {
         if (!res) {
-          setTimeout(() => {
-            this.infoModalVisible = false;
-          }, 0);
+          this.infoModalVisible = false;
         } else {
-          setTimeout(() => {
+          setTimeout(() => {            
             this.infoModalData = res;
             this.infoModalVisible = true;
           }, 0);
@@ -97,15 +91,15 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   handleValueChange(field: 'x' | 'y' | 'direction', value: number | string) {
-    switch(field) {
+    switch (field) {
       case 'x':
-        this.xVal = value as number
+        this.xVal = value as number;
         break;
       case 'y':
-        this.yVal = value as number
+        this.yVal = value as number;
         break;
       case 'direction':
-        this.directionVal = value as Direction
+        this.directionVal = value as Direction;
         break;
     }
   }

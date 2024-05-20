@@ -8,12 +8,12 @@ export interface InfoModalData {
 
 @Injectable({providedIn: 'root'})
 export class ModalService {
-  modalVisible = new BehaviorSubject<InfoModalData | null>(null)
+  infoModalVisible = new BehaviorSubject<InfoModalData | false>(false)
 
-  showModal( message: string, title?: string) {
-    this.modalVisible.next({title, message})
+  showInfoModal( message: string, title?: string) {
+    this.infoModalVisible.next({title, message})
   }
-  hideModal() {
-    this.modalVisible.next(null)
+  hideInfoModal() {
+    this.infoModalVisible.next(false)
   }
 }
