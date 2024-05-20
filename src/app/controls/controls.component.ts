@@ -24,7 +24,7 @@ export class ControlsComponent {
         this.rotate('LEFT');
         break;
       case 'ArrowRight':
-        this.rotate('LEFT');
+        this.rotate('RIGHT');
         break;
       case 'm':
       case 'M':
@@ -68,9 +68,11 @@ export class ControlsComponent {
   rotate(direction: RotationDirection) {
     this.sendCommand({ type: 'rotate', direction });
   }
+
   move() {
     this.sendCommand({ type: 'move' });
   }
+  
   report() {
     this.sendCommand({ type: 'report' });
   }
