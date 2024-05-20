@@ -17,9 +17,11 @@ export interface PlaceCommand {
   type: 'place';
   placement: Placement;
 }
+
 export interface MoveCommand {
   type: 'move';
 }
+
 export interface RotateCommand {
   type: 'rotate';
   direction: RotationDirection;
