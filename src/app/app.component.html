@@ -1,22 +1,6 @@
 <div class="app">
   <app-board [command]="command"></app-board>
-  <div class="commands">
-    <div class="instructions"></div>
-    <div class="placement-controls">
-      <div class="placement-controls__inputs">
-        <app-input-number [placeholder]="'insert x'" (valueChanged)="handleValueChange('x', $event)"></app-input-number>
-        <app-input-number [placeholder]="'insert y'" (valueChanged)="handleValueChange('y', $event)"></app-input-number>
-        <app-select [options]="directionOptions" (valueChanged)="handleValueChange('direction', $event)"></app-select>
-      </div>
-      <div class="placement-controls__submit">
-        <app-button
-          [text]="'Confirm placement'"
-          (buttonClicked)="submitPlacement()"
-          ></app-button
-        >
-      </div>
-    </div>
-  </div>
+  <app-controls (commandSent)="command = $event"></app-controls>
 </div>
 <app-info-modal
   *ngIf="infoModalVisible"

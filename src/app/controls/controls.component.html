@@ -1,0 +1,16 @@
+<div class="commands">
+  <div class="placement-controls">
+    <div class="placement-controls__inputs">
+      <app-input-number [placeholder]="'insert X'" (valueChanged)="handleValueChange('x', $event)"></app-input-number>
+      <app-input-number [placeholder]="'insert Y'" (valueChanged)="handleValueChange('y', $event)"></app-input-number>
+      <app-select [options]="directionOptions" (valueChanged)="handleValueChange('direction', $event)"></app-select>
+    </div>
+    <div class="placement-controls__submit">
+      <app-button
+        [text]="'Confirm placement'"
+        (buttonClicked)="submitPlacement()"
+        ></app-button
+      >
+    </div>
+  </div>
+</div>

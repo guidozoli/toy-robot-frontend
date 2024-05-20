@@ -1,0 +1,19 @@
+.commands {
+  margin-top: 30px;
+  display: flex;
+  gap: 20px;
+
+
+  
+  .placement-controls {
+    &__inputs {
+      input {
+        
+      }
+    }
+
+    &__submit {
+      width: 100%;
+    }
+  }
+}
